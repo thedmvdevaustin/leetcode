@@ -38,24 +38,24 @@ var isHappy = function(n) {
     }
     let slow = n;
     let fast = n;
-    while (fast > 1) {
-        slow = sumOfSquares(slow);
-        fast = sumOfSquares(sumOfSquares(fast));
-        if (slow===fast && slow!==1) {
-            return false
+    do {
+        slow = nextNumber(slow);
+        fast = nextNumber(nextNumber(fast));
+        if (fast===1) {
+            return true
         }
-    }
+    } while (slow!==fast)
 
-    function sumOfSquares(num) {
+    function nextNumber(num) {
         let answer = 0
         while (num > 0) {
             answer = answer + (num%10)**2;
             num = Math.floor(num/10);
         }
-        return answer
+        return answer;
     }
 
-    return true;
+    return false
 };
 /*
 Time Complexity: O(1); we aren't looping through a dataset or from 0 to
