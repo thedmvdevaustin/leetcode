@@ -39,7 +39,7 @@
 
 // The number of nodes in the list is an even integer in the range [2, 105].
 // 1 <= Node.val <= 105
-
+//  NEW ANSWER 
 /**
  * Definition for singly-linked list.
  * function ListNode(val, next) {
@@ -52,35 +52,70 @@
  * @return {number}
  */
 var pairSum = function(head) {
-    let sum = 0;
+    let answer = 0;
+    let prev = null;
     let slow = head;
     let fast = head;
     while (fast && fast.next) {
-        slow = slow.next;
         fast = fast.next.next;
+        let next = slow.next;
+        slow.next = prev;
+        prev = slow;
+        slow = next;
     }
-    let reverse = reverseList(slow);
-    let reverseNode = reverse;
-    let current = head;
-    while (current !== slow) {
-        sum = Math.max(sum, current.val + reverseNode.val);
-        current = current.next;
-        reverseNode = reverseNode.next;
+    while (prev && slow) {
+        answer = Math.max(answer, prev.val + slow.val);
+        prev = prev.next;
+        slow = slow.next
     }
-    reverseList(reverse);
-
-    function reverseList(node) {
-        let prev = null;
-        while (node) {
-            next = node.next;
-            node.next = prev;
-            prev = node;
-            node = next;
-        }
-        return prev;
-    }
-    return sum;
+    return answer;
 };
+
+
+// OLD ANSWER 
+
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+
+// /**
+//  * @param {ListNode} head
+//  * @return {number}
+//  */
+// var pairSum = function(head) {
+//     let sum = 0;
+//     let slow = head;
+//     let fast = head;
+//     while (fast && fast.next) {
+//         slow = slow.next;
+//         fast = fast.next.next;
+//     }
+//     let reverse = reverseList(slow);
+//     let reverseNode = reverse;
+//     let current = head;
+//     while (current !== slow) {
+//         sum = Math.max(sum, current.val + reverseNode.val);
+//         current = current.next;
+//         reverseNode = reverseNode.next;
+//     }
+//     reverseList(reverse);
+
+//     function reverseList(node) {
+//         let prev = null;
+//         while (node) {
+//             next = node.next;
+//             node.next = prev;
+//             prev = node;
+//             node = next;
+//         }
+//         return prev;
+//     }
+//     return sum;
+// };
 
 /*
 Time Complexity: O(N); worst case scenario we are always stopping traversal
