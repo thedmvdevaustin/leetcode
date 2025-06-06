@@ -49,17 +49,42 @@
  * @param {ListNode} node
  * @return {void} Do not return anything, modify node in-place instead.
  */
-var deleteNode = function(node) {
-    while (node.next.next) {
-        node.val = node.next.val;
-        node = node.next;
-    }
-    node.val = node.next.val;
-    node.next = null;
-};
+// O(N) SOLUTION 
+
+// var deleteNode = function(node) {
+//     while (node.next.next) {
+//         node.val = node.next.val;
+//         node = node.next;
+//     }
+//     node.val = node.next.val;
+//     node.next = null;
+// };
 
 /*
 Time Complexity: O(N): worst case scenario we have to loop through the entire
 list of elements;
+Space Complexity: O(1); no additional space is needed
+*/
+
+// OPTIMIZED SOLUTION
+
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+/**
+ * @param {ListNode} node
+ * @return {void} Do not return anything, modify node in-place instead.
+ */
+var deleteNode = function(node) {
+    node.val = node.next.val;
+    node.next = node.next.next;
+};
+
+/*
+Time Complexity: O(1); only 2 actions of constant time are being performed
 Space Complexity: O(1); no additional space is needed
 */
