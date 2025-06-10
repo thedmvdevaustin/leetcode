@@ -22,34 +22,34 @@
 // 1 <= s.length <= 105
 // s[i] is either 'A', 'C', 'G', or 'T'.
 
-/**
- * @param {string} s
- * @return {string[]}
- */
-var findRepeatedDnaSequences = function(s) {
-    if (s.length < 10) {
-        return []
-    }
-    let answer = [];
-    let obj = {};
-    let start = 0;
-    let end = 10;
-    while (end-1 < s.length) {
-        if (s.substring(start, end) in obj) {
-            obj[s.substring(start, end)]++;
-        } else {
-            obj[s.substring(start, end)] = 1;
-        }
-        start++;
-        end++;
-    }
-    for (let key in obj) {
-        if (obj[key]>1) {
-            answer.push(key)
-        }
-    }
-    return answer
-};
+// /**
+//  * @param {string} s
+//  * @return {string[]}
+//  */
+// var findRepeatedDnaSequences = function(s) {
+//     if (s.length < 10) {
+//         return []
+//     }
+//     let answer = [];
+//     let obj = {};
+//     let start = 0;
+//     let end = 10;
+//     while (end-1 < s.length) {
+//         if (s.substring(start, end) in obj) {
+//             obj[s.substring(start, end)]++;
+//         } else {
+//             obj[s.substring(start, end)] = 1;
+//         }
+//         start++;
+//         end++;
+//     }
+//     for (let key in obj) {
+//         if (obj[key]>1) {
+//             answer.push(key)
+//         }
+//     }
+//     return answer
+// };
 
 /*
 Time Complexity: O(N); worst case scenario I'm still looping through
@@ -57,4 +57,28 @@ most of the list which simplifies down to O(N) in worst case scenario
 Space Complexity: O(N); worst case scenario I'm creating an object with
 close to most of the list substrings which simplifies down to O(N) extra
 space
+*/
+
+/**
+ * @param {string} s
+ * @return {string[]}
+ */
+var findRepeatedDnaSequences = function(s) {
+    let answer = [], seenOnce = new Set(), seenTwice = new Set(), left = 0;
+    for (let right = 9; right < s.length; right++) {
+        currentWindow = s.substring(left, right+1);
+        if (seenOnce.has(currentWindow)) {
+            seenTwice.add(currentWindow);
+        } else {
+            seenOnce.add(currentWindow);
+        }
+        left++;
+    }
+    return Array.from(seenTwice)
+};
+
+/*
+Time Complexity: O(N); we traverse the entire array in all cases;
+Space Complexity: O(N); worst case scenario we have a hash set that holds
+all the substrings because we have seen them once
 */
