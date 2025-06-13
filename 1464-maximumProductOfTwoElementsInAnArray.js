@@ -36,3 +36,74 @@ Time Comlexity: O(n log n); sorting takes O(n log n);
 Space Complexity: O(1); unless the sorting algorithm that is uses takes
 up extra space;
 */
+
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var maxProduct = function(nums) {
+    let heap = new MaxHeap();
+    nums.forEach(x => heap.push(x));
+    return (heap.pop() - 1) * (heap.pop() - 1);
+};
+
+class MaxHeap {
+    constructor() {
+        this.heap = [null];
+    }
+    //size, push, pop
+
+    size() {
+        return this.heap.length - 1;
+    }
+
+    push(value) {
+        this.heap.push(value);
+        let index = this.size(), element = this.heap[index];
+        while (index > 1) {
+            let parentIndex = Math.floor(index / 2);
+            let parentElement = this.heap[parentIndex];
+            if (element <= parentElement) break;
+            this.heap[index] = parentElement;
+            index = parentIndex
+        }
+        this.heap[index] = element;
+    }
+
+    pop() {
+        if (this.size()===1) return this.heap.pop();
+        const root = this.heap[1];
+        this.heap[1] = this.heap.pop()
+        let index = 1, element = this.heap[index];
+        while(true) {
+            let leftChildIndex = 2*index, rightChildIndex = 2*index+1;
+            let leftChildElement, rightChildElement;
+            let swap = null;
+            if (leftChildIndex <= this.size()) {
+                leftChildElement = this.heap[leftChildIndex];
+                if (leftChildElement > element) {
+                    swap = leftChildIndex;
+                }
+                
+                if (rightChildIndex <= this.size()) {
+                    rightChildElement = this.heap[rightChildIndex];
+                    if ((swap===null && rightChildElement > element) || swap!==null && rightChildElement > leftChildElement) {
+                        swap = rightChildIndex;
+                    }
+                }
+            }
+            if (swap===null) break;
+            this.heap[index] = this.heap[swap];
+            index = swap;
+        }
+        this.heap[index] = element;
+        return root;
+    }
+}
+
+/*
+Time Complexity: O(n log n); we have to go through each element in the nums array
+and push it onto the heap which is a log n operation so this simplifies to
+O(n log n);
+Space Complexity: O(n); every element in the nums array is put into the heap
+*/
