@@ -25,10 +25,9 @@ function searchTriplets(arr, target) {
     for (let i = 0; i < arr.length-2; i++) {
         let start = i+1, end = arr.length - 1;
         while (start < end) {
-            if (nums[i]+nums[start]+nums[end] < target) {
-                answer++;
+            if (arr[i]+arr[start]+arr[end] < target) {
+                answer = answer+(end-start);
                 start++;
-                end--;
             } else {
                 end--;
             }
