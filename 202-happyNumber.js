@@ -57,6 +57,32 @@ var isHappy = function(n) {
 
     return false
 };
+
+/**
+ * @param {number} n
+ * @return {boolean}
+ */
+var isHappy = function(n) {
+    function nextHappy(num) {
+        let total = 0
+        while (num) {
+            total = total + (num%10)**2;
+            num = Math.floor(num/10);
+        }
+        return total;
+    }
+    let slow = n;
+    let fast = n;
+    while (fast!==1) {
+        slow = nextHappy(slow);
+        fast = nextHappy(nextHappy(fast));
+        if (fast===1) return true;
+        if (slow===fast) return false;
+    }
+    return true;
+};
+
+
 /*
 Time Complexity: O(1); we aren't looping through a dataset or from 0 to
 n so the complexity has to be constant;
