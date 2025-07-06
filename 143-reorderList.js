@@ -67,9 +67,55 @@ var reorderList = function(head) {
     return
 };
 
+
+
 /*
 Time Complexity: O(N); each for loop is seperate and not nexted so they each
 are added together instead of multiplied. Worst case scenario they are each
 O(N) so the result if O(N);
 Space Complexity: O(1); no additional space is needed
+*/
+
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @return {void} Do not return anything, modify head in-place instead.
+ */
+var reorderList = function(head) {
+    if (!head.next) return head;
+    let slow = head;
+    let fast = head;
+    while (fast && fast.next) {
+        slow = slow.next;
+        fast = fast.next.next
+    }
+    let prev = null;
+    while (slow) {
+        let next = slow.next;
+        slow.next = prev;
+        prev = slow;
+        slow = next;
+    }
+    let current = head;
+    while (current.next && prev.next) {
+        let currentNext = current.next;
+        let prevNext = prev.next;
+        current.next = prev;
+        prev.next = currentNext;
+        current = currentNext;
+        prev = prevNext;
+    }
+};
+
+/*
+Time Complexity: O(N); each loop we are only looping through half of the 
+linked list which simplifies down to O(N); since we aren't nesting any
+loops they will be added together which simplifies down to O(N) altogether;
+// Space Complexity: O(1); no additional space is needed
 */
