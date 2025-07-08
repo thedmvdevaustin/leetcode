@@ -48,3 +48,27 @@ Time Complexity: O(N); worst case scenario the array is always fully traversed
 from the for loop
 Space Complexity: O(1); no additional space was used only contstant space
 */
+
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number}
+ */
+var findMaxAverage = function(nums, k) {
+    let max = -Infinity, total = 0, left = 0;
+    for (let right = 0; right < nums.length; right++) {
+        total+=nums[right];
+        if (right-left+1===k) {
+            max = Math.max(max, total/k);
+            total-=nums[left];
+            left++;
+        }
+    }
+    return max;
+};
+
+/*
+Time Complexity: O(N); worst case scenario the array is always fully traversed
+from the for loop
+Space Complexity: O(1); no additional space was used only contstant space
+*/
