@@ -68,7 +68,33 @@ var totalFruit = function(fruits) {
 
 /*
 Time complexity: O(N); worst case scenario the while loop doesn't activate
-every iteration so it is simplified to constant time
+every iteration; worst case scenario we will traverse the array 2n times which
+simplifies down to O(N)
+Space Complexity: O(N); worst case scenario we have to add the entire 
+length of the fruits basket to the obj 
+*/
+
+/**
+ * @param {number[]} fruits
+ * @return {number}
+ */
+var totalFruit = function(fruits) {
+    let max = 0, left = 0, map = {};
+    for (let right = 0; right < fruits.length; right++) {
+        map[fruits[right]] ? map[fruits[right]]++ : map[fruits[right]] = 1;
+        while (Object.keys(map).length > 2) {
+            map[fruits[left]] === 1 ? delete map[fruits[left]] : map[fruits[left]]--;
+            left++;
+        }
+        max = Math.max(max, right-left+1);
+    }
+    return max
+};
+
+/*
+Time complexity: O(N); worst case scenario the while loop doesn't activate
+every iteration; worst case scenario we will traverse the array 2n times which
+simplifies down to O(N)
 Space Complexity: O(N); worst case scenario we have to add the entire 
 length of the fruits basket to the obj 
 */
