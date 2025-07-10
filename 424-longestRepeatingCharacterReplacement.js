@@ -63,3 +63,29 @@ Space Complexity: O(K): additional space with be K size in the worst case
 which is the size of the substring we are on if they are all unique elements
 which can be up to O(N) in the worst case scenario
 */
+
+/**
+ * @param {string} s
+ * @param {number} k
+ * @return {number}
+ */
+var characterReplacement = function(s, k) {
+    let answer = 0, max = 0, left = 0, map = {};
+    for (let right = 0; right < s.length; right++) {
+        map[s[right]] ? map[s[right]]++ : map[s[right]] = 1;
+        max = Math.max(max, map[s[right]]);
+        while (right - left + 1 - max > k) {
+            map[s[left]]===1 ? delete map[s[left]] : map[s[left]]--;
+            left++
+        }
+        answer = Math.max(answer, right - left + 1);
+    }
+    return answer
+};
+
+/*
+Time Complexity: O(N): since the while loop isn't traversing through the 
+entire array every iteration the complexity will simplify down to O(N)
+Space Complexity: O(substring); worst case scenario we only have to save 
+the size of the substring we are currently on
+*/
