@@ -51,5 +51,29 @@ Time Complexity: O(N); worst case scenario we loop through the array and
 the while loops worst case scenario only activates during one iteration
 so the complexity doesn't increase
 Space Complexity: O(1); no additional space is needed;
+*/
 
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number}
+ */
+var longestOnes = function(nums, k) {
+    let answer = 0, numOfOnes = 0, left = 0;
+    for (let right = 0; right < nums.length; right++) {
+        if (nums[right]) numOfOnes++;
+        while (right - left + 1 - numOfOnes > k) {
+            if (nums[left]) numOfOnes--;
+            left++;
+        }
+        answer = Math.max(answer, right - left + 1);
+    }
+    return answer;
+};
+
+/*
+Time Complexity: O(N); worst case scenario we loop through the array and 
+the while loops worst case scenario only activates during one iteration
+so the complexity doesn't increase
+Space Complexity: O(1); no additional space is needed;
 */
