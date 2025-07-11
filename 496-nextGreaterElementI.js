@@ -65,3 +65,34 @@ element that is in nums1(The Actual complexity would be O(nums1^nums2));
 this solution only works because the input size is really small
 Space Complexity: O(1); no additional space is needed other than the answer;
 */
+
+/**
+ * @param {number[]} nums1
+ * @param {number[]} nums2
+ * @return {number[]}
+ */
+var nextGreaterElement = function(nums1, nums2) {
+    let stack = [], answer = [], map = {};
+    for (let i = 0; i < nums2.length; i++) {
+        while (stack.length && nums2[i] > stack[stack.length - 1]) {
+            map[stack.pop()] = nums2[i]
+        }
+        stack.push(nums2[i])
+    }
+    for (let i = 0; i < stack.length; i++) {
+        map[stack[i]] = -1;
+    }
+    return nums1.map(x => map[x])
+};
+
+/*
+Time Complexity: O(N+M); where n===nums2 && m===nums1; we traverse the entire
+nums2 to create a monotonic stack, even though there is a while loop the 
+max amount of iterations in the first for loop will be 2n which simplifies
+down to N; we then traverse the stack to add the rest to the map which will 
+be O(N) worst case which is added to our current O(N) solution simpifying down 
+to O(N) and the traversal of nums1 at the end is separate from the first
+2 traversals so we add it to the current time complexity of O(N) which 
+simplifies down to O(N+M);
+*/
+
