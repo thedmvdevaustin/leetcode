@@ -61,5 +61,5 @@ Time Complexity: O(N); worst case scenario we are iterating through all
 the nodes in the tree at each level to add them up to see what is the 
 greatest level sum;
 Space Complexity: O(l) where l = the length of the level; worst case the 
-queue will hold one level at a time so the extra space will be O(L);
+// queue will hold one level at a time so the extra space will be O(L);
 */
