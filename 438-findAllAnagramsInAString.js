@@ -57,3 +57,32 @@ of O(N)
 Space Complexity: O(alpha); we only add an array of length 26 each time which
 is the length of the alpha array
 */
+
+/**
+ * @param {string} s
+ * @param {string} p
+ * @return {number[]}
+ */
+var findAnagrams = function(s, p) {
+    if (p.length > s.length) return []
+    let answer = [], pAlphaArray = Array(26).fill(0), sAlphaArray = Array(26).fill(0);
+    for (let i = 0; i < p.length; i++) {
+        pAlphaArray[p.charCodeAt(i)-97]++;
+        sAlphaArray[s.charCodeAt(i)-97]++;
+    }
+    if (pAlphaArray.toString()===sAlphaArray.toString()) answer.push(0);
+    for (let right = p.length; right < s.length; right++) {
+        let left = right - p.length;
+        sAlphaArray[s.charCodeAt(right)-97]++;
+        sAlphaArray[s.charCodeAt(left)-97]--;
+        if (pAlphaArray.toString()===sAlphaArray.toString()) answer.push(left+1);
+    }
+    return answer;
+};
+
+/*
+Time Complexity: O(N); where n is the length of s; worst case scenario we
+only have to loop through the entire s and perform constant operations
+Space Complexity: O(alpha); we only add an array of length 26 each time which
+is the length of the alpha array
+*/
