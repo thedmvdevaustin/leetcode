@@ -37,3 +37,27 @@ even worst case scenario we get 2n traversals which simplifies down to
 O(N);
 Space complexity: O(1); no additional space is needed
 */
+
+function longestSubstring(string, k) {
+    if (!k) return 0;
+    let map = {}, dCharacters = 0, left = 0, answer = 0;
+    for (let right = 0; right < string.length; right++) {
+        if (map[string[right]]) {
+            map[string[right]]++
+        } else {
+            map[string[right]] = 1;
+            dCharacters++;
+        }
+        while (dCharacters > k) {
+            if (map[string[left]]===1) {
+                delete map[string[left]];
+                dCharacters--;
+            } else {
+                map[string[left]]--;
+            }
+            left++;
+        }
+        answer = Math.max(answer, right - left + 1);
+    }
+    return answer
+}
