@@ -86,3 +86,33 @@ Time Complexity: O(N); at worst case the amount of times we traverse the
 array is 2n-1 which simplifies down to O(n);
 Space complexity: O(1); no additional space is needed
 */
+
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var findDuplicate = function(nums) {
+    let i = 0;
+    while (i < nums.length) {
+        if (nums[i]!==i+1) {
+            if (nums[i]===nums[nums[i]-1]) {
+                return nums[i]
+            } else {
+                let temp = nums[nums[i]-1];
+                nums[nums[i]-1] = nums[i];
+                nums[i] = temp;
+            }
+        } else {
+            i++;
+        }
+    }
+};
+
+/*
+This is the cyclic sort pattern solution; though it works this shouldn't
+be used because the problem asks to not modify the array and this solution
+modifies the array
+Time Complexity: O(N); at worst case the amount of times we traverse the 
+array is 2n-1 which simplifies down to O(n);
+Space complexity: O(1); no additional space is needed
+*/
