@@ -78,7 +78,12 @@ ultimately simplify down to O(n) for the entire algorithm
 Space Complexity: O(1);
 */
 
-let i = 0;
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var missingNumber = function(nums) {
+    let i = 0;
     while (i < nums.length) {
         if (nums[i] < nums.length && nums[i]!==i) {
             let temp = nums[nums[i]];
@@ -92,6 +97,7 @@ let i = 0;
         if (nums[i]!==i) return i
     }
     return nums.length;
+};
 
 /*
 Time Complexity: O(n); worst case scenario the while loop traverses through the 

@@ -45,3 +45,37 @@ Time Complexity: O(n); worst case we are doing 2 separate traversals through
 the array of nums which simplifies down to O(n) time;
 Space complexity: O(1) no additional space is needed
 */
+
+/**
+ * @param {number[]} nums
+ * @return {number[]}
+ */
+var findDisappearedNumbers = function(nums) {
+    let answer = [], i = 0;
+    while (i < nums.length) {
+        if (nums[i]!==i+1) {
+            if (nums[i]===nums[nums[i]-1]) {
+                i++;
+            } else {
+                let temp = nums[nums[i]-1];
+                nums[nums[i]-1] = nums[i];
+                nums[i] = temp
+            }
+        } else {
+            i++;
+        }
+    }
+    for (let i = 0; i < nums.length; i++) {
+        if (nums[i]!==i+1) {
+            answer.push(i+1);
+        }
+    }
+    return answer;
+};
+
+
+/*
+Time Complexity: O(n); worst case we are doing 2 separate traversals through
+the array of nums which simplifies down to O(n) time;
+Space complexity: O(1) no additional space is needed
+*/
