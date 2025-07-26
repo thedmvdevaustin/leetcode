@@ -55,3 +55,37 @@ traverses the entire array. these loops arent't nested so they are added
 together which simplifies down to O(n);
 Space Complexity: O(1); no additonal space is needed(except for the solution)
 */
+
+/**
+ * @param {number[]} nums
+ * @return {number[]}
+ */
+var findDuplicates = function(nums) {
+    const map = new Map()
+    const result = []
+
+    for (let i = 0; i < nums.length; i++) {
+        if (map.has(nums[i])) {
+            map.set(nums[i], map.get(nums[i]) + 1)
+        } else [
+            map.set(nums[i], 1)
+        ]
+    }
+
+    for (let [key, value] of map) {
+        if (value >= 2) {
+            result.push(key)
+        }
+    }
+
+    return result
+}; 
+
+
+/*
+Time Complexity: O(N) the first loop at worst case takes 2n-1 iterations 
+which simplifies down to O(n) and the second loop takes O(n) since it just
+traverses the entire array. these loops arent't nested so they are added
+together which simplifies down to O(n);
+Space Complexity: O(1); no additonal space is needed(except for the solution)
+*/
