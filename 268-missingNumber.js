@@ -77,3 +77,27 @@ after isn't nested so it is added to the while loops complexity which would
 ultimately simplify down to O(n) for the entire algorithm
 Space Complexity: O(1);
 */
+
+let i = 0;
+    while (i < nums.length) {
+        if (nums[i] < nums.length && nums[i]!==i) {
+            let temp = nums[nums[i]];
+            nums[nums[i]] = nums[i];
+            nums[i] = temp;
+            continue;
+        }
+        i++;
+    }
+    for (let i = 0; i < nums.length; i++) {
+        if (nums[i]!==i) return i
+    }
+    return nums.length;
+
+/*
+Time Complexity: O(n); worst case scenario the while loop traverses through the 
+array with 2n iterations at worst which simplifies down to O(N) and since
+the for loop traverses the array again with constant operations so it is
+simplified down to O(N) also and isn't nested it is added to the solution
+is O(N);
+Space Complexity: O(1); no additional space is needed
+*/ 
