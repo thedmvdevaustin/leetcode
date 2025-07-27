@@ -81,3 +81,48 @@ Time Complexity: O(N); we are only looping through the list once to reverse
 the list from left and right and connect the links back to the right place
 Space Complexity: O(1); no additional space is needed
 */
+
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @param {number} left
+ * @param {number} right
+ * @return {ListNode}
+ */
+var reverseBetween = function(head, left, right) {
+    let node = head, nodeBefore = null, lastNode = null, prev = null, i = left;
+    while (i > 2) {
+        node = node.next;
+        i--;
+    }
+    nodeBefore = node;
+    node = node.next;
+    if (i===1) {
+        nodeBefore = null;
+        node = head;
+    }
+    while (right >= left) {
+        if (!prev) lastNode = node;
+        let next = node.next;
+        node.next = prev;
+        prev = node;
+        node = next;
+        right--;
+    }
+    if (nodeBefore) nodeBefore.next = prev;
+    lastNode.next = node
+    return nodeBefore ? head : prev;
+};
+
+/*
+Time Complexity: O(N); worst case scenario we are still only traversing
+the list once and performing constant operations each iteration
+Space Complexity: O(1); no additional space is needed(other than the 
+constant space for pointers)
+*/
