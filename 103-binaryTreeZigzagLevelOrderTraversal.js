@@ -59,3 +59,45 @@ Space Complexity: O(l) where l = length of nodes in level; we only hold
 the amount of nodes in a level worst case scenario; not including the space
 needed to store the output
 */
+
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number[][]}
+ */
+var zigzagLevelOrder = function(root) {
+    if (!root) return [];
+    let queue = [root], answer = [], odd = false;
+    while (queue.length) {
+        let length = queue.length, level = [];
+        for (let i = 0; i < length; i++) {
+            let node = queue.shift();
+            if (node.left) queue.push(node.left);
+            if (node.right) queue.push(node.right);
+            level.push(node.val);
+        }
+        if (odd) {
+            level.reverse()
+            odd = false;
+        } else {
+            odd = true;
+        }
+        answer.push(level);
+    }
+    return answer;
+};
+
+/*
+Time Complexity: O(N); worst case scenario we have to iterate each node 
+in the tree;
+Space Complexity: O(l) where l = length of nodes in level; we only hold
+the amount of nodes in a level worst case scenario; not including the space
+needed to store the output
+*/
