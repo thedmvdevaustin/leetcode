@@ -59,6 +59,7 @@ var isSymmetric = function(root) {
 };
 
 /*
+BREADTH FIRST SEARCH
 Time Complexity: O(N); worst case scenario we have to traverse every node
 in the tree and perform constant operations for each iteration added to the
 2 pointer algo which checks to see if the level is symmetrical which will
@@ -68,3 +69,33 @@ Space Complexity: O(N); worst case scenario we are processing the entire
 last level of nodes in the array and in our queue which is n/2 nodes which
 simplifies down to O(N) for both of those data structures
 */
+
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {boolean}
+ */
+var isSymmetric = function(root) {
+    const recursion = (node1, node2) => {
+        if (!node1 && !node2) return true;
+        if (!node1 || !node2) return false;
+        return node1.val === node2.val && recursion(node1.left, node2.right) && recursion(node1.right, node2.left);
+    }
+    return recursion(root.left, root.right);
+};
+
+/*
+DEPTH FIRST SEARCH
+Time Complexity: O(N); worst case scenario we are traversing through n/2
+nodes which simplifies down to O(N);
+Space Compexity: O(h); the recursion stack will go as deep as the height of 
+tree worst case scenario
+*/
+
