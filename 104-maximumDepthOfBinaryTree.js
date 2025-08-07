@@ -48,10 +48,38 @@ var maxDepth = function(root) {
 };
 
 /*
+BREADTH FIRST SEARCH
 Time Complexity: O(N) worst case scenario we are traversing all the nodes
 in the tree and performing constant operations which simplifies down to 
 O(N);
 Space Complexity: O(N); worst case scenario we are puttin the entire last
 line of nodes in the queue which will contain N/2 nodes which simplifies
 down to O(N);
+*/
+
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+var maxDepth = function(root) {
+    if (!root) return 0;
+    let left = maxDepth(root.left);
+    let right = maxDepth(root.right);
+    return Math.max(left,right) + 1;
+};
+
+/*
+DEPTH FIRST SEARCH
+Time Complexity: O(N); in all cases we will have to traverse to every single
+node in the tree performing constant operations which simplifies down to O(N)
+Space Complexity: O(h); h being the height of the tree the recursive stack will only go as deep as the 
+height of the tree worst case scenario
 */
