@@ -55,3 +55,35 @@ down to the last level which would be n/2 which simplifies down to O(N);
 Space Complexity: O(N); worst case secnario we will have to have n/2 elements
 inside the queue at once which simplifes down to O(N);
 */
+
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+var minDepth = function(root) {
+    if (!root) return 0;
+    function dfs(node) {
+        if (!node) return Infinity;
+        if (!node.left && !node.right) return 1;
+        let left = dfs(node.left);
+        let right = dfs(node.right);
+        return Math.min(left,right)+1;
+    }
+    return dfs(root);
+};
+
+/*
+Time Complexity: O(N); worst case secnario we have to check every node in
+the tree;
+Space Complexity: O(h); h being the height of the tree worst case 
+scenario the recursive stack will only be filled with the height of the 
+tree amount of functions
+*/
