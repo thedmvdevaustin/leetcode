@@ -63,10 +63,51 @@ var hasPathSum = function(root, targetSum) {
 };
 
 /*
+BREADTH FIRST SEARCH
 Time Complexity: O(N); worst case scenario we have to traverse the entire
 tree and during each iteration perform constant operations which simplfies
 down to O(N);
 Space Complexity: O(N) worst case scenario when we process our last level
 of the tree we can get n/2 elements in the queue at once which simplifies 
 down to O(N);
+*/
+
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {number} targetSum
+ * @return {boolean}
+ */
+var hasPathSum = function(root, targetSum) {
+    if (!root) return false;
+    const dfs = (node,total) => {
+        if (!node) return false
+        if (!node.left && !node.right) {
+            if (total-node.val===0) {
+                return true;
+            }
+            return false;
+        }
+        let left = dfs(node.left, total-node.val);
+        let right = dfs(node.right, total-node.val);
+        return left || right;
+    }
+    return dfs(root,targetSum);
+};
+
+/*
+DEPTH FIRST SEARCH
+Time Complexity: O(N); worst case scenario we have to traverse the entire
+tree to every node in the tree and perform constant operations which 
+simplifies down to O(N);
+Space Complexity: O(h); h === height of tree; the recursion stack will 
+at worst case only be filled with the height of the tree amount of 
+functions
 */
