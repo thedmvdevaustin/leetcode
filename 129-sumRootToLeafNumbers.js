@@ -66,10 +66,78 @@ var sumNumbers = function(root) {
 };
 
 /*
+BREADTH FIRST SEARCH
 Time Complexity: O(N); worst case scenario we are traversing the entire 
 tree and each iteration performing constant operations so this simplifies
 down to O(N);
 Space Complexity: O(N); worst case scenario we have the bottom level filled
 completely with nodes in which we will push n/2 nodes to the queue which
 simplifies down to O(N);
+*/
+
+/**
+ * WITH GLOBAL VARIABLE
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+var sumNumbers = function(root) {
+    let answer = 0;
+    const dfs = (node, string) => {
+        if (!node) return;
+        string+=`${node.val}`;
+        if (!node.left && !node.right) {
+            answer = answer + Number(string);
+        }
+        dfs(node.left, string);
+        dfs(node.right, string);
+        return;
+    }
+    dfs(root, "");
+    return answer;
+};
+
+/**
+ * WITHOUT GLOBAL VARIABLE
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+var sumNumbers = function(root) {
+    const dfs = (node, string, total) => {
+        if (!node) return 0;
+        string+=`${node.val}`;
+        if (!node.left && !node.right) {
+            total+=Number(string);
+            return total;
+        }
+        return dfs(node.left, string, total)+dfs(node.right, string, total);
+    }
+    return dfs(root, "", 0);
+};
+
+/*
+DEPTH FIRST SEARCH
+Time Complexity: O(N); worst case scenario we will have to traverse to 
+every node in the tree performing constant operations which will simplify
+down to O(N);
+Space Complexity: O(N) worst case given that the tree is skewed(is setup
+like a linked list), this means the recursive stack will fill up with
+as many functions as there are nodes in the tree; and O(h) best case when 
+the tree is complete or perfect because the recursive stack will only fill
+up with as many functions as the height of the tree at a time
 */
