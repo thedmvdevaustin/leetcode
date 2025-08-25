@@ -71,3 +71,48 @@ simplifies down to O(N) and the arrays that are passed down for the path
 which will be at worst O(h) h being the height of the tree which is less than
 the O(N) space for the queue so it is dropped;
 */
+
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {number} targetSum
+ * @return {number[][]}
+ */
+var pathSum = function(root, targetSum) {
+    if (!root) return [];
+    let answer = [];
+    const dfs = (node, path, total) => {
+        if (!node) return;
+        path.push(node.val);
+        total+=node.val;
+        if (!node.left && !node.right) {
+            if (total===targetSum) {
+                answer.push(path);
+            }
+            return
+        }
+        dfs(node.left, [...path], total);
+        dfs(node.right, [...path], total);
+        return;
+    }
+    dfs(root, [], 0);
+    return answer;
+};
+
+/*
+Time Complexity: O(N); worst case scenario we will have to traverse to 
+every node in the tree performing constant operations which will simplify
+down to O(N);
+Space Complexity: O(N) worst case given that the tree is skewed(is setup
+like a linked list), this means the recursive stack will fill up with
+as many functions as there are nodes in the tree; and O(h) best case when 
+the tree is complete or perfect because the recursive stack will only fill
+up with as many functions as the height of the tree at a time
+*/
