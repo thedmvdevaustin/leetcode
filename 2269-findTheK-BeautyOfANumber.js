@@ -36,3 +36,26 @@ which simplifies down to O(N)
 Space Complexity: O(N); changing the num to a string of the size of num
 creates an additional N space
 */
+
+/**
+ * @param {number} num
+ * @param {number} k
+ * @return {number}
+ */
+var divisorSubstrings = function(num, k) {
+    let string = String(num), left = 0, answer = 0;
+    for (let right = 0; right < string.length; right++) {
+        if (right - left + 1 === k) {
+            if (num / Number(string.substring(left, right+1))!==0 && num % Number(string.substring(left, right+1))===0) answer++;
+            left++;
+        }
+    }
+    return answer;
+};
+
+/*
+Time Complexity: O(N); worst case scenario traversal takes place n-k+1 times(could be wrong)
+which simplifies down to O(N)
+Space Complexity: O(N); changing the num to a string of the size of num
+creates an additional N space
+*/
