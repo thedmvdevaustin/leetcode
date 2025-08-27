@@ -64,3 +64,29 @@ Space Complexity: O(N); worst case scenario we will need to fill up the
 object(being used as a hash map in the case) with the size of the array
 which if O(N);
 */ 
+
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var maximumLengthSubstring = function(s) {
+    let map = {}, left = 0, answer = 0;
+    for (let right = 0; right < s.length; right++) {
+        map[s[right]] ? map[s[right]]++ : map[s[right]] = 1;
+        while (map[s[right]] > 2) {
+            map[s[left]]===1 ? delete map[s[left]] : map[s[left]]--;
+            left++;
+        }
+        answer = Math.max(answer, right - left + 1);
+    }
+    return answer;
+};
+
+/*
+Time Complexity: O(N); worst case we will loop the entire array once, 
+even if the while loop is activated in the worst case scenario we won't
+have to traverse the entire array for every iteration in the for loop
+Space Complexity: O(N); worst case scenario we will need to fill up the 
+object(being used as a hash map in the case) with the size of the array
+which if O(N);
+*/ 
