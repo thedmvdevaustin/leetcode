@@ -62,3 +62,27 @@ Time Complexity: O(N); in all scenarios we are looping through the entire
 length of blocks; which is linear time;
 Space Complexity: O(1); only constant additional space is needed
 */
+
+/**
+ * @param {string} blocks
+ * @param {number} k
+ * @return {number}
+ */
+var minimumRecolors = function(blocks, k) {
+    let left = 0, answer = Infinity, numOfBlackBlocks = 0;
+    for (let right = 0; right < blocks.length; right++) {
+        if (blocks[right]==='B') numOfBlackBlocks++;
+        if (right - left + 1 === k) {
+            answer = Math.min(answer, k - numOfBlackBlocks);
+            if (blocks[left]==='B') numOfBlackBlocks--;
+            left++;
+        }
+    }
+    return answer;
+};
+
+/*
+Time Complexity: O(N); in all scenarios we are looping through the entire
+length of blocks; which is linear time;
+Space Complexity: O(1); only constant additional space is needed
+*/
