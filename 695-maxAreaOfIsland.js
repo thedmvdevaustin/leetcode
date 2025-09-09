@@ -85,3 +85,38 @@ grid which simplifies down to O(m*n);
 Space Complexity: O(m*n); worst case scenario we add every element into
 the hash set
 */
+
+/**
+ * @param {number[][]} grid
+ * @return {number}
+ */
+var maxAreaOfIsland = function(grid) {
+    let visited = new Set(), answer = 0;
+    for (let i = 0; i < grid.length; i++) {
+        for (let j = 0; j < grid[i].length; j++) {
+            if (grid[i][j]===1 && !visited.has(`${i},${j}`)) {
+                answer = Math.max(answer, dfs(i,j));
+            }
+        }
+    }
+
+    function dfs(row, col) {
+        if (visited.has(`${row},${col}`) || row < 0 || col < 0 || row >= grid.length || col >= grid[row].length || grid[row][col]===0){
+            return 0;
+        }
+        visited.add(`${row},${col}`);
+        let top = dfs(row - 1, col);
+        let bottom = dfs(row + 1, col);
+        let left = dfs(row, col - 1);
+        let right = dfs(row, col + 1);
+        return left+right+bottom+top+1;
+    }
+    return answer;
+};
+
+/*
+Time Complexity: O(m*n); worst case scenario we still have to traverse 
+every element inside the grid
+Space Complexity: O(m*n); worst case scenario we will have to fill up 
+the recursion stack with the amount of elements inside the grid
+*/
