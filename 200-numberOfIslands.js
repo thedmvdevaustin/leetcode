@@ -85,3 +85,39 @@ grid to find if it is a separate island or not
 Space Complexity: O(m*n); worst case scenario we have all "1" so we will add 
 that to the set
 */
+
+/**
+ * @param {character[][]} grid
+ * @return {number}
+ */
+var numIslands = function(grid) {
+    let answer = 0;
+    for (let i = 0; i < grid.length; i++) {
+        for (let j = 0; j < grid[i].length; j++) {
+            if (grid[i][j]==='1') {
+                dfs(i,j);
+                answer++;
+            }
+        }
+    }
+
+    function dfs(row, col) {
+        if (row < 0 || row >= grid.length || col < 0  || col >= grid[row].length || grid[row][col]==='0') {
+            return;
+        }
+        grid[row][col] = '0';
+        dfs(row+1, col); // 
+        dfs(row-1,col);//
+        dfs(row, col+1);//
+        dfs(row, col-1);//
+        return;
+    }
+    return answer;
+};
+
+/*
+Time Complexity: O(m*n); worst case scenario we will have to traverse through
+every element in the grid;
+Space Complexity: O(m*n); worst case the recursion stack will be called
+the size of the grid amount of times if it is filled with all ones
+*/
