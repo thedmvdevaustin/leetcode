@@ -84,3 +84,34 @@ Time Complexity: O(N); all cases you have to loop through the entire array
 except if it is of length 1 or 0; then the while loop won't activate;
 Space Complexity: O(1); no additional space is needed
 */
+
+//RECURSIVE SOLUTION
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @return {ListNode}
+ */
+var reverseList = function(head) {
+    if (!head || !head.next) {
+        return head;
+    }
+
+    let newHead = reverseList(head.next);
+    head.next.next = head;
+    head.next = null;
+    return newHead
+};
+
+/*
+Time Complexity: O(N); In all case scenarios we have to traverse the
+entire linked list;
+Space Complexity: O(N); the length of the recursion stack gets filled up
+with N amount of functions before we start to clear some functions out
+of the recursion stack
+*/
