@@ -88,10 +88,40 @@ var floodFill = function(image, sr, sc, color) {
     }
     return image;
 };
-
+//SECOND SOLUTION RECURSIVE SOLUTION
 /*
 Time Complexity: O(m*n) worst case scenario we  will still have to traverse
 the entire grid, given that the grid is filled with all 1's;
 Space Complexity: O(m*n) worst case scenario all the elements in the grid
 will be put inside of the hash set 
+*/
+
+/**
+ * @param {number[][]} image
+ * @param {number} sr
+ * @param {number} sc
+ * @param {number} color
+ * @return {number[][]}
+ */
+var floodFill = function(image, sr, sc, color) {
+    function bfs(row, col, ogColor) {
+        if (row < 0 || col < 0 || row > image.length-1 || col > image[row].length-1 || image[row][col]!==ogColor || image[row][col]===color) {
+            return;
+        }
+        image[row][col] = color;
+        bfs(row+1, col, ogColor);
+        bfs(row-1, col, ogColor);
+        bfs(row, col-1, ogColor);
+        bfs(row, col+1, ogColor);
+        return;
+    }
+    bfs(sr, sc, image[sr][sc]);
+    return image
+};
+
+/*
+Time Complexity: O(M*N); worst case scenario we will have to traverse the entire grid given
+that the grid is filled with all 1's;
+Space Complexity: O(M*N); worst case scenario the recursion stack will be filled with as many
+function as there are elements in the grid;
 */
