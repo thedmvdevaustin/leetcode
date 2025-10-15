@@ -113,3 +113,89 @@ Space Complexity: O(num of unique numbers): we create an additional obj
 that stores the frequency of unique numbers and we put the object keys in
 a heap which simplifies down to the number of unique numbers
 */
+// SECOND SOLUTION
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number[]}
+ */
+var topKFrequent = function(nums, k) {
+    let map = {}, answer = [], minHeap = new MyMinHeap();
+    nums.forEach(x => map[x] ? map[x]++ : map[x] = 1);
+    for (const key in map) {
+        minHeap.add([key, map[key]]);
+        if (minHeap.size() > k) {
+            minHeap.delete()
+        }
+    }
+    while (minHeap.size()) {
+        answer.push(Number(minHeap.delete()[0]))
+    }
+    return answer;
+}
+
+class MyMinHeap {
+    constructor() {
+        this.heap = [null];
+    }
+
+    //size, peek, add, delete
+    size() {
+        return this.heap.length - 1;
+    }
+
+    peek() {
+        return this.heap[1];
+    }
+
+    add(value) {
+        this.heap.push(value);
+        let index = this.size(), element = this.heap[index];
+        while (index > 1) {
+            let parentIndex = Math.floor(index/2), parentElement = this.heap[parentIndex];
+            if (element[1] >= parentElement[1]) break;
+            this.heap[index] = parentElement;
+            index = parentIndex;
+        }
+        this.heap[index] = element;
+        return;
+    } 
+
+    delete() {
+        if (this.size()===1) return this.heap.pop();
+        const root = this.peek();
+        this.heap[1] = this.heap.pop();
+        let index = 1, element = this.heap[index];
+        while (true) {
+            let leftChildIndex = index * 2, rightChildIndex = index * 2 + 1;
+            let leftChildElement, rightChildElement;
+            let swap = null;
+            if (leftChildIndex <= this.size()) {
+                leftChildElement = this.heap[leftChildIndex];
+                if (leftChildElement[1] < element[1]) {
+                    swap = leftChildIndex;
+                }
+                if (rightChildIndex <= this.size()) {
+                    rightChildElement = this.heap[rightChildIndex];
+                    if ((swap!==null && rightChildElement[1] < leftChildElement[1]) || (swap===null && rightChildElement[1] < element[1])) {
+                        swap = rightChildIndex
+                    }
+                }
+            }
+            if (swap===null) break;
+            this.heap[index] = this.heap[swap];
+            index = swap;
+        }
+        this.heap[index] = element;
+        return root;
+    }
+}
+
+/*
+Time Complexity: O(N log k); forEach loops through the entire array and performs constant
+operations each iteration O(N); the loop through the map loops through the number of unique 
+elements in the array and performs at most 2 separate log k operations on them 
+(o(log k) + o(log k) = o ( N log k)); then the while loop runs performing a log k operation for
+log k times which simplifies down to log k; so O(N + log k + log k) = O(N log k);
+Space Complexity: O(N); for putting the numbers into the hash map
+*/
