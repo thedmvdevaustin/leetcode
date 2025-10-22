@@ -118,3 +118,92 @@ down to O(N);
 Space Complexity: O(N) putting all the numbers into a set and then into the
 heap;
 */
+
+//SECOND SOLUTION
+
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var thirdMax = function(nums) {
+    let minHeap = new MyMinHeap(), s = new Set();
+    nums.forEach(x => {
+        if (!s.has(x)) {
+            s.add(x)
+            minHeap.queue(x);
+            if (minHeap.size() > 3) {
+                minHeap.dequeue()
+            }
+            console.log(minHeap)
+        }
+    })
+    if (minHeap.size() === 3) return minHeap.peek();
+    while (minHeap.size() > 1) {
+        minHeap.dequeue()
+    }
+    return minHeap.peek()
+};
+
+class MyMinHeap {
+    constructor() {
+        this.heap = [null];
+    }
+
+    size() {
+        return this.heap.length - 1;
+    }
+
+    peek() {
+        return this.heap[1];
+    }
+
+    queue(value) {
+        this.heap.push(value);
+        let index = this.size(), element = this.heap[index];
+        while (index > 1) {
+            let parentIndex = Math.floor(index / 2);
+            let parentElement = this.heap[parentIndex];
+            if (element >= parentElement) break;
+            this.heap[index] = parentElement;
+            index = parentIndex;
+        }
+        this.heap[index] = element;
+    }
+
+    dequeue() {
+        if (this.size()===1) return this.heap.pop();
+        const root = this.peek();
+        this.heap[1] = this.heap.pop();
+        let index = 1, element = this.heap[index];
+        while (true) {
+            let leftChildIndex = 2 * index, rightChildIndex = 2 * index + 1;
+            let leftChildElement, rightChildElement;
+            let swap = null;
+            if (leftChildIndex <= this.size()) {
+                leftChildElement = this.heap[leftChildIndex];
+                if (leftChildElement < element) {
+                    swap = leftChildIndex
+                }
+
+                if (rightChildIndex <= this.size()) {
+                    rightChildElement = this.heap[rightChildIndex];
+                    if ((swap===null && rightChildElement < element) || (swap!==null && rightChildElement < leftChildElement)) {
+                        swap = rightChildIndex;
+                    }
+                }
+            }
+            if (swap===null) break;
+            this.heap[index] = this.heap[swap];
+            index = swap;
+        }
+        this.heap[index] = element;
+        return root;
+    }
+}
+
+/*
+Time Complexity: O(n log k); worst case scenario we will have to loop through the entire
+array and perform log k operations;
+Space Complexity: O(N); worst case scenario all elements are distinct in which they will
+be stored in the hash set
+*/
