@@ -65,3 +65,31 @@ constant operations each iterations which simplifies down to O(N+M);
 Space Complexity: O(1); no additional space needed other than the space 
 for the answer array;
 */
+
+// SECOND SOLUTION 
+
+/**
+ * @param {number[][]} firstList
+ * @param {number[][]} secondList
+ * @return {number[][]}
+ */
+var intervalIntersection = function(firstList, secondList) {
+    let answer = [], i = 0, j = 0;
+    while (i < firstList.length && j < secondList.length) {
+        if (firstList[i][1] < secondList[j][0]) {
+            i++;
+        } else if (firstList[i][0] > secondList[j][1]) {
+            j++;
+        } else {
+            answer.push([Math.max(firstList[i][0], secondList[j][0]), Math.min(firstList[i][1], secondList[j][1])]);
+            firstList[i][1] > secondList[j][1] ? j++ : i++;
+        }
+    }
+    return answer;
+};
+
+/*
+Time Complexity: O(M+N); worst case scenario we have to iterate through the entire length of 
+N and M which simplifies down to O(M+N); where M and N are the lengths of the 2 list
+Space complexity: O(1); no additional space is needed
+*/
