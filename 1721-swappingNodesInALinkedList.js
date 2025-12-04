@@ -63,3 +63,41 @@ Time Complexity: O(N); 2 separate for loops that traverse the entire list
 simplify down to O(N);
 Space Complexity: O(N); created an array of size N to swap the nodes
 */
+
+// SECOND SOLUTION 
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @param {number} k
+ * @return {ListNode}
+ */
+var swapNodes = function(head, k) {
+    if (!head.next) return head;
+    let first = head, last = head, newHead = head;
+    while (newHead && k>1) {
+        newHead = newHead.next;
+        k--;
+    }
+    first = newHead;
+    while (newHead.next) {
+        newHead = newHead.next;
+        last =last.next;
+    }
+    let temp = first.val
+    first.val =last.val;
+    last.val = temp;
+    return head;
+};
+
+/*
+Optimal Solution compared to above solution
+Time Complexity: O(N); worst case scenario we only loop through the linked list once performing
+constant operations
+Space Complexity: O(1); no additional space is needed
+*/
