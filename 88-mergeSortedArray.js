@@ -72,3 +72,34 @@ Time Complexity: O(m+n); worst case scenario we are traversing through the
 length of both m and n at the same time which simplifies down to O(m+n);
 Space Complexity: O(1); no additional space is needed
 */
+// SECOND SOLUTION 
+/**
+ * @param {number[]} nums1
+ * @param {number} m
+ * @param {number[]} nums2
+ * @param {number} n
+ * @return {void} Do not return anything, modify nums1 in-place instead.
+ */
+var merge = function(nums1, m, nums2, n) {
+    while (m && n) {
+        if (nums1[m-1] > nums2[n-1]) {
+            nums1[m+n-1] = nums1[m-1];
+            m--;
+        } else {
+            nums1[m+n-1] = nums2[n-1];
+            n--;
+        }
+    }
+    while (n) {
+        nums1[m+n-1] = nums2[n-1];
+        n--;
+    }
+
+};
+
+/*
+Time Complexity: O(M+N); worst case scenario we will loop through the entire first array of 
+non zero elements(M) first then loop through the entire second array of elements(N) which 
+simplifies down to O(M+N);
+Space Complexity: O(1); no additional space is needed;
+*/
