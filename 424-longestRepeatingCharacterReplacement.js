@@ -89,3 +89,30 @@ entire array every iteration the complexity will simplify down to O(N)
 Space Complexity: O(substring); worst case scenario we only have to save 
 the size of the substring we are currently on
 */
+
+// THIRD SOLUTION 
+/**
+ * @param {string} s
+ * @param {number} k
+ * @return {number}
+ */
+var characterReplacement = function(s, k) {
+    let array = Array.from({ length: 26 }, () => 0), max = 0, answer = 0, start = 0;
+    for (let end = 0; end < s.length; end++) {
+        array[s[end].charCodeAt(0)-65]++;
+        max = Math.max(array[s[end].charCodeAt(0)-65], max);
+        while (end - start + 1 - max > k) {
+            array[s[start].charCodeAt(0)-65]--;
+            start++;
+        }
+        answer = Math.max(answer, end - start + 1);
+    }
+    return answer;
+};
+
+/*
+Time Complexity: O(N): since the while loop isn't traversing through the 
+entire array every iteration the complexity will simplify down to O(N);
+Space Complexity: O(1); since the array only contains a length of a 
+constant number(len: 26); the complexity goes down to constant time;
+*/
