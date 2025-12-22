@@ -50,3 +50,83 @@ results in O(N);
 Space Complexity: O(1); since the length of the created array is 1001 we still consider that 
 to be a constant so the result is constant extra space;
 */
+
+/**
+ * @param {number[][]} trips
+ * @param {number} capacity
+ * @return {boolean}
+ */
+var carPooling = function(trips, capacity) {
+    trips = trips.sort((a,b) => a[1]-b[1]);
+    let minHeap = new MyMinHeap();
+    trips.forEach(x => {
+        minHeap.queue([x[2], x[0]]);
+    })
+    for(const trip of trips) {
+        while (minHeap.size() && minHeap.peek()[0] <= trip[1]) {
+            capacity+=(minHeap.dequeue()[1]);
+        }
+        capacity-=trip[0];
+        if (capacity < 0) return false
+    }
+    return true;
+};
+
+class MyMinHeap {
+    constructor() {
+        this.heap = [null];
+    }
+    //size, peek, queue, dequeue
+    size() {
+        return this.heap.length - 1;
+    }
+    peek() {
+        return this.heap[1];
+    }
+    queue(value) {
+        this.heap.push(value);
+        let index = this.size(), element = this.heap[index];
+        while (index > 1) {
+            let parentIndex = Math.floor(index/2), parentElement = this.heap[parentIndex];
+            if (element[0] >= parentElement[0]) break;
+            this.heap[index] = parentElement;
+            index = parentIndex;
+        }
+        this.heap[index] = element;
+        return;
+    }
+    dequeue() {
+        if (this.size()===1) return this.heap.pop();
+        const root = this.peek();
+        this.heap[1] = this.heap.pop();
+        let index = 1, element = this.heap[index];
+        while (true) {
+            let leftChildIndex = index*2, rightChildIndex = index*2+1, swap = null;
+            let leftChildElement, rightChildElement;
+            if (leftChildIndex <= this.size()) {
+                leftChildElement = this.heap[leftChildIndex];
+                if (leftChildElement[0] < element[0]) {
+                    swap = leftChildIndex;
+                }
+                if (rightChildIndex <= this.size()) {
+                    rightChildElement = this.heap[rightChildIndex];
+                    if ((swap===null && rightChildElement[0] < element[0]) || (swap!==null && rightChildElement[0] < leftChildElement[0])) {
+                        swap = rightChildIndex
+                    }
+                }
+            }
+            if (swap===null) break;
+            this.heap[index] = this.heap[swap];
+            index = swap;
+        }
+        this.heap[index] = element;
+        return root;
+    }
+}
+
+/*
+Time Complexity: O(N log N); for the sorting, everything else is linear time
+at max;
+Space Complexity: O(N); worst case scenario there will be N items in our
+created heap
+*/
